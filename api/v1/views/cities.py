@@ -23,7 +23,7 @@ def get_cities_by_state(state_id):
 def get_city(city_id):
     """ gits the states """
     city = storage.get(City, city_id)
-    if not city:
+    if city is None:
         abort(404)
     return jsonify(city.to_dict()), 200
 
@@ -55,7 +55,7 @@ def delete_city(city_id):
 def create_city_post(state_id):
     """ Creates a city """
     state = storage.get(State, state_id)
-    if not state:
+    if state is None:
         abort(404)
     data = request.get_json()
     if not data:
