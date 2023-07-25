@@ -70,28 +70,43 @@ if state_id_0 is None or state_id_0 == "":
 city_id_0_0 = exec_command(my_console, "create City state_id=\"{}\" name=\"Fremont\"".format(state_id_0))
 if city_id_0_0 is None or city_id_0_0 == "":
     print("FAIL: Can't create City")
-city_id_0_1 = exec_command(my_console, "create City state_id=\"{}\" name=\"San_Francisco\"".format(state_id_0))
-if city_id_0_1 is None or city_id_0_1 == "":
-    print("FAIL: Can't create City")
 
 # Users
 user_id_0 = exec_command(my_console, "create User email=\"a@a.com\" password=\"pwd\" first_name=\"fn\" last_name=\"ln\"")
 if user_id_0 is None or user_id_0 == "":
+    print("FAIL: Can't create User")
+user_id_1 = exec_command(my_console, "create User email=\"b@b.com\" password=\"pwd\" first_name=\"fn\" last_name=\"ln\"")
+if user_id_1 is None or user_id_1 == "":
+    print("FAIL: Can't create User")
+user_id_2 = exec_command(my_console, "create User email=\"c@c.com\" password=\"pwd\" first_name=\"fn\" last_name=\"ln\"")
+if user_id_2 is None or user_id_2 == "":
+    print("FAIL: Can't create User")
+user_id_3 = exec_command(my_console, "create User email=\"d@d.com\" password=\"pwd\" first_name=\"fn\" last_name=\"ln\"")
+if user_id_3 is None or user_id_3 == "":
     print("FAIL: Can't create User")
 
 # Places
 place_id_0 = exec_command(my_console, "create Place city_id=\"{}\" user_id=\"{}\" name=\"House0\" description=\"des\" number_rooms=4 number_bathrooms=3 max_guest=6 price_by_night=100 latitude=1.3 longitude=2.3".format(city_id_0_0, user_id_0))
 if place_id_0 is None or place_id_0 == "":
     print("FAIL: Can't create Place")
-place_id_1 = exec_command(my_console, "create Place city_id=\"{}\" user_id=\"{}\" name=\"House1\" description=\"des\" number_rooms=1 number_bathrooms=1 max_guest=2 price_by_night=90 latitude=1.3 longitude=2.3".format(city_id_0_0, user_id_0))
+place_id_1 = exec_command(my_console, "create Place city_id=\"{}\" user_id=\"{}\" name=\"House1\" description=\"des\" number_rooms=1 number_bathrooms=1 max_guest=2 price_by_night=90 latitude=1.3 longitude=2.3".format(city_id_0_0, user_id_1))
 if place_id_1 is None or place_id_1 == "":
     print("FAIL: Can't create Place")
-place_id_2 = exec_command(my_console, "create Place city_id=\"{}\" user_id=\"{}\" name=\"House2\" description=\"des\" number_rooms=2 number_bathrooms=1 max_guest=3 price_by_night=120 latitude=1.3 longitude=2.3".format(city_id_0_0, user_id_0))
-if place_id_2 is None or place_id_2 == "":
-    print("FAIL: Can't create Place")
-place_id_3 = exec_command(my_console, "create Place city_id=\"{}\" user_id=\"{}\" name=\"House3\" description=\"des\" number_rooms=3 number_bathrooms=2 max_guest=4 price_by_night=140 latitude=1.3 longitude=2.3".format(city_id_0_0, user_id_0))
-if place_id_3 is None or place_id_3 == "":
-    print("FAIL: Can't create Place")
+
+# Reviews
+review_id_0 = exec_command(my_console, "create Review place_id=\"{}\" user_id=\"{}\" text=\"review0\"".format(place_id_0, user_id_1))
+if review_id_0 is None or review_id_0 == "":
+    print("FAIL: Can't create Review")
+review_id_1 = exec_command(my_console, "create Review place_id=\"{}\" user_id=\"{}\" text=\"review1\"".format(place_id_0, user_id_2))
+if review_id_1 is None or review_id_1 == "":
+    print("FAIL: Can't create Review")
+review_id_2 = exec_command(my_console, "create Review place_id=\"{}\" user_id=\"{}\" text=\"review2\"".format(place_id_0, user_id_3))
+if review_id_2 is None or review_id_2 == "":
+    print("FAIL: Can't create Review")
+review_id_3 = exec_command(my_console, "create Review place_id=\"{}\" user_id=\"{}\" text=\"review3\"".format(place_id_0, user_id_2))
+if review_id_3 is None or review_id_3 == "":
+    print("FAIL: Can't create Review")
+    
 
 
 print("OK", end="")
