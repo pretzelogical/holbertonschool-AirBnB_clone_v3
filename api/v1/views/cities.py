@@ -13,9 +13,11 @@ def get_cities_by_state(state_id):
     """ Retrives City objects of a State """
     state = storage.get("State", state_id)
     if state is None:
-        return jsonify([])
-    cities = [city.to_dict() for city in state.cities]
-    return jsonify(cities), 200
+        abort (404)
+    cities = []
+    for city in state.cities:
+        cities.append(city.to_dict())
+    return jsonify(cities)
 
 
 @app_views.route('/cities/<string:city_id>', methods=['GET'],
