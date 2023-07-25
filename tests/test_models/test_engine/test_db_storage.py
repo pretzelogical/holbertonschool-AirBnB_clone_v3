@@ -72,7 +72,7 @@ class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
-        """Test that all returns a dictionary of all classes if 
+        """Test that all returns a dictionary of all classes if
         none is passed
         """
         self.assertIsInstance(models.storage.all(), dict)
