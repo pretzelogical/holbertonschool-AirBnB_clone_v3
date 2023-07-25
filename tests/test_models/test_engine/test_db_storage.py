@@ -82,6 +82,7 @@ class TestFileStorage(unittest.TestCase):
         """Test that all returns a dictionary of the requested class"""
         oklama = State(name="Oklahoma")
         oklama.save()
+        # making sure that there will always be atleast 1 state
         states = models.storage.all(State)
         for state in states.values():
             self.assertIsInstance(state, State)
@@ -91,10 +92,25 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
         """test that new adds an object to the database"""
+        oklama = State(name="Oklahoma")
+        models.storage.new(oklama)
+        models.storage.save()
+        self.assertEqual(oklama, models.storage.get(State, oklama.id))
+        models.storage.delete(oklama)
+        models.storage.save()
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to the database"""
+        oklama = State(name="Oklahoma")
+        models.storage.new(oklama)
+        models.storage.save()
+        ok_id = oklama.id
+        self.assertEqual(oklama, models.storage.get(State, ok_id))
+        models.storage.delete(oklama)
+        models.storage.save()
+        # testing that oklama has been deleted
+        self.assertEqual(None, models.storage.get(State, ok_id))
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
