@@ -41,9 +41,9 @@ def delete_city(city_id):
 
 @app_views.route('/states/<string:state_id>/cities', methods=['POST'],
                  strict_slashes=False)
-def create__city_post():
+def create_city_post(state_id):
     """ Creates a city """
-    state = storage.get(Stae, state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     data = request.get_json()
@@ -73,4 +73,4 @@ def update_city(city_id):
         if key not in ignored_keys:
             setattr(city, key, value)
     city.save()
-    return jsonify(cities.to_dict()), 200
+    return jsonify(city.to_dict()), 200
