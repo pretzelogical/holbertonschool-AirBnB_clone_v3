@@ -17,12 +17,14 @@ def get_cities_by_state(state_id):
     return jsonify(cities)
 
 
-@app_views.route('/states', methods=['GET'],
+@app_views.route('/cities/<string:city_id>', methods=['GET'],
                  strict_slashes=False)
-def get_states():
-    """ Gets the list of all State objects """
-    states = storage.all(State).values()
-    return jsonify([state.to_dict() for state in states])
+def get_city(city_id):
+    """ gits the states """
+    city = storage.get(City, city_id)
+    if not city:
+        abort(404)
+    return jsonify(city.to_dict()), 200
 
 
 @app_views.route('/states/<string:state_id>', methods=['GET'],
