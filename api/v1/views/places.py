@@ -47,7 +47,7 @@ def delete_place(place_id):
 def create_place(city_id):
     """ Creates a place linked to a city by the id and json data"""
     if request.is_json is False:
-        abort(404, 'Not a JSON')
+        abort(400, 'Not a JSON')
     js_data = request.get_json()
     if 'user_id' not in js_data:
         abort(400, 'Missing user_id')
