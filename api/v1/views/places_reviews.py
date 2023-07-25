@@ -58,7 +58,7 @@ def create_review(place_id):
         abort(400, 'Missing text')
     user = storage.get(User, js_data['user_id'])
     if user is None:
-        raise (404)
+        abort(404)
     review = Review(**js_data)
     review.save()
     return jsonify(review.to_dict()), 201
