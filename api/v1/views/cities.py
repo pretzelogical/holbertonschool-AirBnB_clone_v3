@@ -7,35 +7,26 @@ from models.state import State
 from models.city import City
 
 
-@app_views.route('/states/<string:state_id>/cities', method=['GET'],
+@app_views.route('/states/<string:state_id>/cities', methods=['GET'],
                  strict_slashes=False)
 def get_cities_by_state(state_id):
     """ Retrives City objects of a State """
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state is None:
-        abort(404, "error")
-    cities = [city.to_dict() for city in state.cities]
-    return jsonify(cities)
+        abort(404)
+    cities = state.cities
+    cities_s = [city.to_dict() for city in cities]
+    return jsonify(cities_s)
 
 
 @app_views.route('/cities/<string:city_id>', methods=['GET'],
                  strict_slashes=False)
-def get_city(city_id):
-    """ gits the states """
+def get_cities_id(city_id):
+    """ Retrives City objects when an id is provided """
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
-    return jsonify(city.to_dict()), 200
-
-
-@app_views.route('/states/<string:state_id>', methods=['GET'],
-                 strict_slashes=False)
-def get_state(state_id):
-    """ gits the states """
-    state = storage.get(State, state_id)
-    if not state:
-        abort(404)
-    return jsonify(state.to_dict()), 200
+    return jsonify(city.to_dict())
 
 
 @app_views.route('/cities/<string:city_id>', methods=['DELETE'],
@@ -54,16 +45,16 @@ def delete_city(city_id):
                  strict_slashes=False)
 def create_city_post(state_id):
     """ Creates a city """
-    state = storage.get(State, state_id)
-    if state is None:
+    if request.is_json is False:
+        abort(400, 'Not a JSON')
+    js_data = request.get_json()
+    if 'name' not in js_data:
+        abort(400, 'Missing name')
+    c_state = storage.get(State, state_id)
+    if c_state is None:
         abort(404)
-    data = request.get_json()
-    if not data:
-        abort(400, "Not a JSON")
-    if 'name' not in data:
-        abort(400, "Missing name")
-    data['state_id'] = state_id
-    city = City(**data)
+    city = City(**js_data)
+    city.state_id = state_id
     city.save()
     return jsonify(city.to_dict()), 201
 
@@ -75,9 +66,9 @@ def update_city(city_id):
     city = storage.get(City, city_id)
     if not city:
         abort(404)
-    data = request.get_json()
-    if not data:
+    if request.is_json is False:
         abort(400, 'Not a JSON')
+    data = request.get_json()
     # Ignore keys: id, created_at, and updated_at
     ignored_keys = ['id', 'created_at', 'updated_at', 'state_id']
     for key, value in data.items():
