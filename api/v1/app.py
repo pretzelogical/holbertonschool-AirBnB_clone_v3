@@ -2,10 +2,12 @@
 """ Returns the status of the API """
 from api.v1.views import app_views
 from flask import Flask, render_template, jsonify
+from flask_cors import CORS
 from models import storage
 from os import environ
 
 app = Flask(__name__)
+CORS(app)
 app.register_blueprint(app_views)
 
 
