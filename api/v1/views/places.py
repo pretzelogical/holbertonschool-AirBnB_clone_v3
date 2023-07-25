@@ -48,17 +48,17 @@ def create_place(city_id):
     """ Creates a place linked to a city by the id and json data"""
     if request.is_json is False:
         abort(404, 'Not a JSON')
-    js_data = request.get_data()
+    js_data = request.get_json()
+    if 'user_id' not in js_data:
+        abort(400, 'Missing user_id')
+    if 'name' not in js_data:
+        abort(400, 'Missing name')
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
-    if 'user_id' not in js_data:
-        abort(400, 'Missing user_id')
     user = storage.get(User, js_data['user_id'])
     if user is None:
         abort(404)
-    if 'name' not in js_data:
-        abort(400, 'Missing name')
     place = Place(**js_data)
     return jsonify(place.to_dict()), 201
 
